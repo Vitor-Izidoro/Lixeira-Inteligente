@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="adicionar-fonte" class="box">
+    <form method="POST" action="{{ url_for('real_time.tempo_real') }}">
+        <label for="lixeira">Selecione a Lixeira:</label>
+        <select name="lixeira" id="lixeira">
+            <option value="" disabled selected>Selecione uma lixeira</option>
+            {% for lixeira in lixeiras %}
+            <option value="{{ lixeira.id_lixeira }}" {% if selected_lixeira and lixeira.id_lixeira == selected_lixeira.id_lixeira %}selected{% endif %}>Lixeira {{ lixeira.id_lixeira }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <button id="temporeal" type="submit">Selecionar</button>
+    </form>
+    {% if atuadores or sensores %}
+    <div id="informacoes-lixeira">
+        <h3>Sensores</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Sensor</th>
+                    <th>Tipo de Sensor</th>
+                    <th>ID Lixeira</th>
+                    <th>Data Hora Registro</th>
+                    <th>Dado</th>
+                    <th>Imagem do Sensor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sensor in sensores %}
+                <tr>
+                    <td>{{ sensor.id_sensor }}</td>
+                    <td>{{ sensor.tipo_sensor }}</td>
+                    <td>{{ sensor.id_lixeira }}</td>
+                    <td>{{ sensor.data_hora_registro }}</td>
+                    <td>{{ sensor.dado }}</td>
+                    <td><img src="{{ sensor.caminho_imagem }}" width="30" height="30" alt="Imagem do sensor"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <h3>Atuadores</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Atuador</th>
+                    <th>Tipo de Atuador</th>
+                    <th>ID Lixeira</th>
+                    <th>Data Hora Registro</th>
+                    <th>Dado</th>
+                    <th>Imagem do Atuador</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for atuador in atuadores %}
+                <tr>
+                    <td>{{ atuador.id_atuador }}</td>
+                    <td>{{ atuador.tipo_atuador }}</td>
+                    <td>{{ atuador.id_lixeira }}</td>
+                    <td>{{ atuador.data_hora_registro }}</td>
+                    <td>{{ atuador.dado }}</td>
+                    <td><img src="{{ atuador.caminho_imagem }}" width="40" height="35" alt="Imagem do atuador"></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
